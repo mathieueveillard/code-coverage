@@ -1,32 +1,17 @@
-// @ts-ignore see https://github.com/jest-community/jest-extended#setup
-import * as matchers from "jest-extended";
-import fc from "fast-check";
+import compute from ".";
 
-expect.extend(matchers);
+describe("Those 2 tests ensure a 100% code coverage.", () => {
+  test("a < 10 and b < 10", () => {
+    expect(compute(1, 1)).toEqual(2);
+  });
 
-test("A simple test (Jest)", () => {
-  expect(1 + 1).toEqual(2);
+  test("a >= 10 and b >= 10", () => {
+    expect(compute(11, 11)).toEqual(2);
+  });
 });
 
-test("Additional matchers (jest-extended)", () => {
-  expect([1, 0]).toIncludeSameMembers([0, 1]);
-});
-
-test("Property-based testing (fast-check)", () => {
-  type Boundaries = {
-    min: number;
-    max: number;
-  };
-
-  const minmax =
-    ({ min, max }: Boundaries) =>
-    (n: number): number =>
-      Math.min(max, Math.max(min, n));
-
-  fc.assert(
-    fc.property(fc.integer(), (n): boolean => {
-      const result = minmax({ min: 1, max: 10 })(n);
-      return 1 <= result && result <= 10;
-    })
-  );
+describe.skip("Yet, there are corner cases and the code is not correctly covered!", () => {
+  test("a < 10 and b >= 10", () => {
+    expect(compute(1, 11)).toEqual(11);
+  });
 });
